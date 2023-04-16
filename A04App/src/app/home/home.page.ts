@@ -11,8 +11,12 @@ import { IonicModule } from '@ionic/angular';
 })
 export class HomePage {
 
-  itens:string[] = ['Item 1', 'Teste'];
+  itens:string[] = [];
   constructor() {}
+
+  addToList(item:any){
+    this.itens.push(item);
+  }
 
   
 }
