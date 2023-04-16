@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -11,16 +11,35 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class HomePage {
-  novoProduto:string="";
-  itens:string[] = [];
-  constructor() {}
+  novoProduto: string = "";
+  message = "item adicionado";
+  itens: string[] = [];
 
-  addToList(item:string){
-    this.itens.push(item);
+
+  constructor(private alertController: AlertController, private toastController: ToastController) { }
+
+  addToList(item: string) {
+    if (item === undefined || item.trim() === "") {
+      this.showAlert("O campo de produto não poderá ser vazio");
+    } else {
+      this.itens.push(item);
+      this.showToast("Produto adicionado");
+    }
   }
 
-  removeFromList(indice:number){
-    this.itens.splice(indice,1);
+  async showAlert(message: string) {
+    let result = await this.alertController.create({ message, buttons: ['OK'] });
+    result.present();
   }
-  
+
+  async showToast(message: string) {
+    let result = await this.toastController.create({ message, duration: 1500, position: 'bottom' });
+    await result.present();
+  }
+
+  removeFromList(index: number) {
+    this.itens.splice(index, 1);
+    this.showToast("Produto removido");
+  }
+
 }
