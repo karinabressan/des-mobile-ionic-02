@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
+import { Produto } from '../produto/produto';
 
 @Component({
   selector: 'app-home',
@@ -11,18 +12,21 @@ import { AlertController, IonicModule, ToastController } from '@ionic/angular';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class HomePage {
+
   novoProduto: string = "";
+  novaQuantidade: number = 1;
+
   message = "item adicionado";
-  itens: string[] = [];
+  itens: Produto[] = [];
 
 
   constructor(private alertController: AlertController, private toastController: ToastController) { }
 
-  addToList(item: string) {
+  addToList(item: string, quantidade: number) {
     if (item === undefined || item.trim() === "") {
       this.showAlert("O campo de produto não poderá ser vazio");
     } else {
-      this.itens.push(item);
+      this.itens.push(new Produto(item, quantidade));
       this.showToast("Produto adicionado");
     }
   }
