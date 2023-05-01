@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
+import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { Produto } from '../produto/produto';
 
 @Component({
@@ -9,9 +10,9 @@ import { Produto } from '../produto/produto';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, IonicStorageModule],
 })
-export class HomePage implements OnInit{
+export class HomePage implements OnInit {
 
   inputNomeProduto: string = "";
   inputQuantidade: number = 1;
@@ -22,11 +23,13 @@ export class HomePage implements OnInit{
   itens: Produto[] = [];
 
 
-  constructor(private alertController: AlertController, private toastController: ToastController) { 
+  constructor(private alertController: AlertController, private toastController: ToastController, private storage: Storage) { 
   }
 
-  ngOnInit(): void {
- //   this.itens.push(new Produto('ss', 1));
+  async ngOnInit(): Promise<void> {
+    await this.storage.create();
+    let produtos = await this.storage.get('produtos');
+    this.itens = produtos ? JSON.parse(produtos) : [];
   }
 
   startEditing(index:number){
@@ -42,6 +45,9 @@ export class HomePage implements OnInit{
       let produtoEditando:Produto = this.itens[this.indiceEdicao];
       produtoEditando.nome = this.inputNomeProduto;
       produtoEditando.quantidade = this.inputQuantidade;
+      this.storage.set('produtos', JSON.stringify(this.itens));
+      this.inputNomeProduto = '';
+      this.inputQuantidade = 1;
       this.indiceEdicao = 0;
       this.modoEdicao = false;
     }
@@ -55,8 +61,17 @@ export class HomePage implements OnInit{
       this.showAlert("Informe uma quantidade válida");
     } else {
       this.itens.push(new Produto(this.inputNomeProduto, this.inputQuantidade));
+      this.storage.set('produtos', JSON.stringify(this.itens));
+      this.inputNomeProduto = '';
+      this.inputQuantidade = 1;
       this.showToast("Produto adicionado");
     }
+  }
+
+  removeFromList(index: number) {
+    this.itens.splice(index, 1);
+    this.storage.set('produtos', JSON.stringify(this.itens));
+    this.showToast("Produto removido");
   }
 
   async showAlert(message: string) {
@@ -67,11 +82,6 @@ export class HomePage implements OnInit{
   async showToast(message: string) {
     let result = await this.toastController.create({ message, duration: 1500, position: 'bottom' });
     await result.present();
-  }
-
-  removeFromList(index: number) {
-    this.itens.splice(index, 1);
-    this.showToast("Produto removido");
   }
 
 }
