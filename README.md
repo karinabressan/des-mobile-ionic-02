@@ -13,9 +13,7 @@ Nesta segunda etapa do nosso aplicativo iremos implementar um serviço para salv
     [x] Incluir botão de salvar a alteração.
     [x] Implementar controle de estado de alteração ou criação.
     [x] Quando estiver no modo inclusão de registro, apresentar o botão "adicionar" e esconder o botão "salvar". Quando estiver no modo alteração, apresentar o botão "salvar" e esconder o botão "adicionar".
-[ ] Procurar documentações sobre o que é um serviço
-[ ] Crie um serviço para usar o ionic storage
-[ ] Implemente o código para criar um registro no ionic storage.
-[ ] Atualize os métodos para inclusão e exclusão para que usem o storage.
-[ ] Para enviar seu app, acesse aqui um tutorial para ver quais arquivos precisam ser enviados para que o tutor faça a correção da sua atividade.
-[ ] Envie o arquivo compactado no espaço abaixo.
+[x] Procurar documentações sobre o que é um serviço
+[x] Crie um serviço para usar o ionic storage
+[x] Implemente o código para criar um registro no ionic storage.
+[x] Atualize os métodos para inclusão e exclusão para que usem o storage.
