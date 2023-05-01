@@ -9,17 +9,26 @@
 <ion-content [fullscreen]="true">
 
   <ion-item>
-    <ion-input label="Produto" labelPlacement="floating" placeholder="Digite o produto" [(ngModel)]="novoProduto"></ion-input>
-    <ion-input label="Quantidade" labelPlacement="floating" placeholder="Digite a quantidade" [(ngModel)]="novaQuantidade"></ion-input>
+    <ion-input label="Produto" labelPlacement="floating" placeholder="Digite o produto"
+      [(ngModel)]="inputNomeProduto"></ion-input>
+    <ion-input label="Quantidade" labelPlacement="floating" placeholder="Digite a quantidade"
+      [(ngModel)]="inputQuantidade" type="number"></ion-input>
   </ion-item>
-  <ion-button (click)="addToList(novoProduto,novaQuantidade)">
+  <ion-button (click)="addToList()" *ngIf="!modoEdicao">
     <ion-icon slot="start" name="add-circle-outline"></ion-icon>
     Adicionar
+  </ion-button>
+  <ion-button (click)="update()" *ngIf="modoEdicao">
+    <ion-icon slot="start" name="save-outline"></ion-icon>
+    Salvar
   </ion-button>
   <ion-list lines="inset" *ngFor="let item of itens; index as i">
     <ion-item>
       <ion-label>{{item.nome}}</ion-label>
       <ion-label>{{item.quantidade}}</ion-label>
+      <ion-button (click)="startEditing(i)">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
       <ion-button (click)="removeFromList(i)">
         <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
       </ion-button>
