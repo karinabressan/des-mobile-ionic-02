@@ -23,7 +23,7 @@ Este é o momento de estruturarmos melhor nossa aplicação e mudar o armazename
 
 [x] - Abra o projeto da lista de compras
 
-[ ] - Altere o armazenamento de ionic storage para o SQLite
+[x] - Altere o armazenamento de ionic storage para o SQLite
 
 [x] - Adicione um novo campo no formulário para o valor
     [x] - Incluir o campo valor na classe Produto

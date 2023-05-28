@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 import { IonicStorageModule, Storage } from '@ionic/storage-angular';
 import { Produto } from '../produto/produto';
+import * as cordovaSQLiteDriver from 'localforage-cordovasqlitedriver';
 
 @Component({
   selector: 'app-home',
@@ -24,11 +25,15 @@ export class HomePage implements OnInit {
   itens: Produto[] = [];
 
 
-  constructor(private alertController: AlertController, private toastController: ToastController, private storage: Storage) { 
+  constructor(private alertController: AlertController, private toastController: ToastController, private storage: Storage) {
+     
   }
 
   async ngOnInit(): Promise<void> {
+    await this.storage.defineDriver(cordovaSQLiteDriver);
     await this.storage.create();
+    
+
     let produtos = await this.storage.get('produtos');
     this.itens = produtos ? JSON.parse(produtos) : [];
   }
