@@ -25,10 +25,10 @@ Este é o momento de estruturarmos melhor nossa aplicação e mudar o armazename
 
 [ ] - Altere o armazenamento de ionic storage para o SQLite
 
-[ ] - Adicione um novo campo no formulário para o valor
-    [ ] - Incluir o campo valor na classe Produto
-    [ ] - Incluir o campo valor no componente Home do tipo monetário
+[x] - Adicione um novo campo no formulário para o valor
+    [x] - Incluir o campo valor na classe Produto
+    [x] - Incluir o campo valor no componente Home
 
-[ ] - Atualize os métodos do CRUD para trabalharem com o campo valor.
-    [ ] - Incluir a visualização do valor digitado pelo usuário na listagem dos produtos
+[x] - Atualize os métodos do CRUD para trabalharem com o campo valor.
+    [x] - Incluir a visualização do valor digitado pelo usuário na listagem dos produtos
 

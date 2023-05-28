@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
 
   inputNomeProduto: string = "";
   inputQuantidade: number = 1;
+  inputValor: number = 0;
   modoEdicao: boolean = false;
   indiceEdicao: number = 0;
 
@@ -36,18 +37,21 @@ export class HomePage implements OnInit {
     let produtoEditando:Produto = this.itens[index];
     this.inputNomeProduto = produtoEditando.nome;
     this.inputQuantidade = produtoEditando.quantidade;
+    this.inputValor = produtoEditando.valor;
     this.indiceEdicao = index;
     this.modoEdicao = true;
   }
 
   update(){
-    if(this.modoEdicao){
+    if(this.modoEdicao && this.validateInputs(true)){
       let produtoEditando:Produto = this.itens[this.indiceEdicao];
       produtoEditando.nome = this.inputNomeProduto;
       produtoEditando.quantidade = this.inputQuantidade;
+      produtoEditando.valor = this.inputValor;
       this.storage.set('produtos', JSON.stringify(this.itens));
       this.inputNomeProduto = '';
       this.inputQuantidade = 1;
+      this.inputValor = 0;
       this.indiceEdicao = 0;
       this.modoEdicao = false;
     }
@@ -55,18 +59,31 @@ export class HomePage implements OnInit {
   }
 
   addToList() {
-    if (this.inputNomeProduto === undefined || this.inputNomeProduto.trim() === "") {
-      this.showAlert("O campo de produto não poderá ser vazio");
-    } else if (this.inputQuantidade <= 0 ){
-      this.showAlert("Informe uma quantidade válida");
-    } else {
-      this.itens.push(new Produto(this.inputNomeProduto, this.inputQuantidade));
-      this.storage.set('produtos', JSON.stringify(this.itens));
-      this.inputNomeProduto = '';
-      this.inputQuantidade = 1;
-      this.showToast("Produto adicionado");
-    }
+      if(this.validateInputs(true)){
+        this.itens.push(new Produto(this.inputNomeProduto, this.inputQuantidade, this.inputValor));
+        this.storage.set('produtos', JSON.stringify(this.itens));
+        this.inputNomeProduto = '';
+        this.inputQuantidade = 1;
+        this.inputValor = 0;
+        this.showToast("Produto adicionado");
+      }
   }
+
+  validateInputs(alertErrors: boolean): boolean{
+    let alertMessage = undefined;
+    if (this.inputNomeProduto === undefined || this.inputNomeProduto.trim() === "") {
+      alertMessage = "O campo de produto não poderá ser vazio";
+    } else if (this.inputQuantidade <= 0 ){
+      alertMessage = "Informe uma quantidade válida";
+    } else if (this.inputValor < 0 || this.inputValor === null){
+      alertMessage = "Informe um valor válido";
+    }
+    if(alertMessage != undefined && alertErrors){
+      this.showAlert(alertMessage);
+    }
+    return alertMessage === undefined;
+    
+  }  
 
   removeFromList(index: number) {
     this.itens.splice(index, 1);
